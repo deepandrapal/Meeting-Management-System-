@@ -1,0 +1,45 @@
+index(
+  a!queryProcessAnalytics(
+    report: cons!MMS_Task_Report,
+    /*contextProcessModels: cons!MMS_PM_NEW_MEET,*/
+    query: a!query(
+      logicalExpression: a!queryLogicalExpression(
+        operator: "AND",
+        filters: if(
+          a!isNullOrEmpty(concat(user(loggedInUser(),"firstName")
+          &" "& user(loggedInUser(),"lastName"))),
+          {},
+          {
+            a!queryFilter(
+              field: "c6",
+              operator: "=",
+              value: loggedInUser()
+            ),
+            /*a!queryFilter(*/
+              /*field: "c9",*/
+              /*operator: "=",*/
+              /*value: 0*/
+            /*),*/
+            a!queryFilter(
+              field: "c8",
+              operator: "=",
+              value: 100
+            )
+          }
+        )
+      ),
+      pagingInfo: a!pagingInfo(
+        startIndex: 1,
+        batchSize: 100,
+        sort: {
+          a!sortInfo(field: "c3"),
+          /*a!sortInfo(*/
+            /*field: "c9"*/
+          /*)*/
+        }
+      )
+    )
+  ),
+  "data",
+  {}
+)

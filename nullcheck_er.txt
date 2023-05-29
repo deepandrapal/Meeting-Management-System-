@@ -1,0 +1,17 @@
+if(
+  trim(ri!id) = "",
+  true,
+  if(
+    isnull(
+      ri!id
+    ),
+    true,
+    if(
+      length(
+        ri!id
+      ) > 0,
+      false,
+      true
+    )
+  )
+)

@@ -1,0 +1,13 @@
+a!localVariables(
+  local!dbDrive: 'recordType!{08dd5eb6-93c3-4ea1-ae14-d2f1034be60c}MMS DB Driven Task'(
+    'recordType!{08dd5eb6-93c3-4ea1-ae14-d2f1034be60c}MMS DB Driven Task.fields.{fee052ce-f5d4-444f-b984-54d531e4a4db}mainid':ri!mainId,
+    'recordType!{08dd5eb6-93c3-4ea1-ae14-d2f1034be60c}MMS DB Driven Task.fields.{523c4460-aa62-49f1-b4be-b0f8e1630c43}taskname': ri!taskName,
+    'recordType!{08dd5eb6-93c3-4ea1-ae14-d2f1034be60c}MMS DB Driven Task.fields.{4cc56dce-b81d-444b-88c7-5c5198d3266a}status': ri!status,
+    'recordType!{08dd5eb6-93c3-4ea1-ae14-d2f1034be60c}MMS DB Driven Task.fields.{7a6766c8-013a-48d7-b0f9-29e896a47472}processmodel': ri!processModel,
+    'recordType!{08dd5eb6-93c3-4ea1-ae14-d2f1034be60c}MMS DB Driven Task.fields.{f3ce2c8f-4fd4-4a3a-aa17-b67e47d98729}assignee': ri!assignee,
+    'recordType!{08dd5eb6-93c3-4ea1-ae14-d2f1034be60c}MMS DB Driven Task.fields.{77083ab1-0357-485a-9786-fd738a41102d}parameter': ri!parameter,
+    'recordType!{08dd5eb6-93c3-4ea1-ae14-d2f1034be60c}MMS DB Driven Task.fields.{ba8cc84b-9a36-447b-b2d6-e56ca9fbd949}starttime': ri!startTime,
+    'recordType!{08dd5eb6-93c3-4ea1-ae14-d2f1034be60c}MMS DB Driven Task.fields.{a5ec389b-84ed-48e9-aca7-b5a88c8f97de}isactive':ri!isActive
+  ),
+  local!dbDrive
+)

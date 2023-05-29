@@ -1,0 +1,5 @@
+a!localVariables(
+  local!name: ri!Name
+  & " | " & ri!id,
+  if(a!defaultValue(ri!cancel,false),ri!Name & " | Cancelled",local!name)
+)

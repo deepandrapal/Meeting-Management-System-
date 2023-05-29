@@ -1,0 +1,20 @@
+index(a!queryRecordType(
+  recordType: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting',
+  fields: {},
+  filters: a!queryLogicalExpression(
+    operator: "AND",
+    filters: {
+      a!queryFilter(
+        field: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime',
+        operator: "between",
+        value: toDatetime({eomonth(today(),-12), eomonth(today(),0) }),
+        
+      )
+    },
+    ignoreFiltersWithEmptyValues: true
+  ),
+  pagingInfo: a!pagingInfo(
+    startIndex: 1,
+    batchSize: cons!MMS_BATCH_SIZE_PAGING_INFO
+  )
+),"data",{})

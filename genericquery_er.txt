@@ -1,0 +1,39 @@
+index(
+  if(
+    rule!MMS_checkIsNull(ri!record),
+    {},
+    a!queryRecordType(
+      recordType: ri!record,
+      fields: if(
+        a!isNullOrEmpty(ri!fields),
+        {},
+        ri!fields
+      ),
+      filters: a!queryLogicalExpression(
+        operator: "AND",
+        filters: {
+          if(
+            a!isNullOrEmpty(
+              ri!filters
+            ),
+            null(),
+            a!forEach(
+              items: ri!filters,
+              expression: a!queryFilter(
+                field: a!defaultValue(fv!item.field,{}),
+                operator: a!defaultValue(fv!item.operator,"is null"),
+                value: fv!item.value,
+              ),
+            )
+          )
+        },
+       
+      ),
+      pagingInfo: a!pagingInfo(
+        startIndex: 1,
+        batchSize: a!defaultValue(ri!batch, cons!MMS_BATCH_SIZE_PAGING_INFO)
+      )
+    )
+  ),
+  "data",{}
+)

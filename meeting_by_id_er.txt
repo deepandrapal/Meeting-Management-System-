@@ -1,0 +1,16 @@
+index(
+  a!queryRecordType(
+    recordType: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting',
+    pagingInfo: a!pagingInfo(startIndex: 1, batchSize: 1),
+    filters: a!queryFilter(
+      field: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{56668138-6a6e-4a79-836a-3ab561a0eab2}meetingId',
+      operator: "=",
+      value: ri!id
+    )
+  ).data,
+  1,
+  cast(
+    'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting',
+    null
+  )
+)

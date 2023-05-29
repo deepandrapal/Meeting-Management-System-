@@ -1,0 +1,5 @@
+"Update Meeting" & if(
+  ri!cancel,
+  " (Cancelled)",
+  ": " & ri!record['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{116f6f8a-11fa-4d59-9268-3d6b9245ead7}subject']
+)
