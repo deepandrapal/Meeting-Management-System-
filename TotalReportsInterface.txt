@@ -1,0 +1,418 @@
+a!localVariables(
+  local!meeting:rule!MMS_qe_perPersonMeetings(),
+  local!months:1,
+  local!testing:rule!MMS_qe_reportTotalAttendee(),
+  local!3:count(rule!MMS_qe_3MonthData()),
+  local!6:count(rule!MMS_qe_6monthData()),
+  local!9:count(rule!MMS_qe_9monthData()),
+  local!12:count(rule!MMS_qe_12monthData()),
+  a!headerContentLayout(
+    header: {
+      
+    },
+    contents: {
+  a!cardLayout(
+    contents: {
+      a!columnsLayout(
+        columns: {
+          a!columnLayout(
+            contents: {
+              a!sectionLayout(
+                label: "TOTAL MEETING VOLUME",
+                labelSize: "MEDIUM_PLUS",
+                labelHeadingTag: "H6",
+                labelColor: "STANDARD",
+                contents: {
+                  a!cardLayout(
+                    contents: {
+                      a!dropdownField(
+                        label: "MONTHS",
+                        labelPosition: "ABOVE",
+                        placeholder: "--- Select a Value ---",
+                        choiceLabels: {"Last 3 Months","Last 6 Months","Last 9 Months","Last 12 Months"},
+                        choiceValues: {1,2,3,4},
+                        value: local!months,
+                        saveInto: {local!months},
+                        searchDisplay: "AUTO",
+                        validations: {}
+                      )
+                    },
+                    height: "AUTO",
+                    style: "#164B74",
+                    marginAbove: "NONE",
+                    marginBelow: "NONE",
+                    showBorder: false,
+                    showShadow: true
+                  ),
+                  a!cardLayout(
+                    contents: {
+                      a!gaugeField(
+                        labelPosition: "COLLAPSED",
+                        percentage: a!match(value: local!months,equals: 1,then: local!3,equals:  2,then: local!6,equals:  3,then: local!9,equals:  4,then: local!12,default: 25),
+                        primaryText: a!match(value: local!months,equals: 1,then: local!3,equals:  2,then: local!6,equals:  3,then: local!9,equals:  4,then: local!12,default: 25),
+                        secondaryText: "Meetings",
+                        color: "#1d659c",
+                        marginAbove: "EVEN_LESS",
+                        marginBelow: "NONE"
+                      )
+                    },
+                    height: "MEDIUM",
+                    style: "NONE",
+                    marginAbove: "NONE",
+                    marginBelow: "STANDARD",
+                    showBorder: false,
+                    showShadow: true
+                  )
+                },
+                divider: "ABOVE",
+                dividerWeight: "MEDIUM",
+                dividerColor: "#999999"
+              )
+            }
+          ),
+          a!columnLayout(
+            contents: {
+              a!sectionLayout(
+                label: "MEETINGS CREATED PER USER",
+                labelSize: "MEDIUM_PLUS",
+                labelHeadingTag: "H6",
+                labelColor: "STANDARD",
+                contents: {
+                  a!cardLayout(
+                    contents: {
+                      a!sideBySideLayout(
+                        items: {
+                          a!sideBySideItem(
+                            item: a!richTextDisplayField(
+                              labelPosition: "COLLAPSED",
+                              value: {
+                                a!richTextItem(
+                                  text: {
+                                    "USERS"
+                                  },
+                                  size: "MEDIUM",
+                                  style: {
+                                    "STRONG"
+                                  }
+                                )
+                              },
+                              marginAbove: "LESS",
+                              marginBelow: "LESS"
+                            )
+                          ),
+                          a!sideBySideItem(
+                            item: a!richTextDisplayField(
+                              labelPosition: "COLLAPSED",
+                              value: {
+                                a!richTextItem(
+                                  text: {
+                                    "MEETINGS"
+                                  },
+                                  size: "MEDIUM",
+                                  style: {
+                                    "STRONG"
+                                  }
+                                )
+                              },
+                              align: "RIGHT",
+                              marginAbove: "LESS",
+                              marginBelow: "LESS"
+                            )
+                          )
+                        },
+                        alignVertical: "MIDDLE",
+                        marginAbove: "STANDARD",
+                        marginBelow: "STANDARD"
+                      )
+                    },
+                    height: "AUTO",
+                    style: "#164B74",
+                    marginBelow: "NONE",
+                    showBorder: false,
+                    showShadow: true,
+                    decorativeBarColor: "#164B74"
+                  ),
+                  a!cardLayout(
+                    contents: {
+
+                      a!forEach(
+                        items: local!meeting,
+                        expression: a!sideBySideLayout( 
+                          items:{a!sideBySideItem(
+                            item: a!richTextDisplayField(
+                              labelPosition: "COLLAPSED",
+                              value: a!richTextItem(
+                                text:  proper(user(a!defaultValue(fv!item.Meeting_Creators,loggedInUser()),"firstName")),
+                                link: a!dynamicLink(),
+                                linkStyle: "STANDALONE",
+                                color: "#4a799a",
+                                
+                                size: "MEDIUM",
+                                style: "STRONG"
+                              ),
+                              marginAbove: "STANDARD"
+                            )
+                          ),
+                          a!sideBySideItem(
+                            item: a!richTextDisplayField(
+                              labelPosition: "COLLAPSED",
+                              value: a!richTextItem(
+                                text:  fv!item.cc,
+                                
+                                
+                               
+                                color: "#274051",
+                                size: "MEDIUM",
+                                style: "STRONG"
+                              ),
+                              align: "RIGHT",
+                              marginAbove: "STANDARD",
+                              marginBelow: "STANDARD"
+                            )
+                          ),
+                          a!sideBySideItem(
+                            item: a!richTextDisplayField(
+                             
+                              labelPosition: "COLLAPSED",
+                              value: "    "
+                              
+                            ),
+                            width: "MINIMIZE"
+                          )
+                          }
+                        
+                        )
+                      )
+                    },
+                    height: "MEDIUM",
+                    style: "NONE",
+                    marginAbove: "NONE",
+                    marginBelow: "STANDARD",
+                    showBorder: false,
+                    showShadow: true
+                  )
+                },
+                divider: "ABOVE",
+                dividerWeight: "MEDIUM",
+                dividerColor: "#999999"
+              )
+            }
+          ),
+          a!columnLayout(
+            contents: {
+              a!sectionLayout(
+                label: "AVERAGE MEETING ATTENDANCE",
+                labelSize: "MEDIUM_PLUS",
+                labelHeadingTag: "H6",
+                labelColor: "STANDARD",
+                contents: {
+                  a!cardLayout(
+                    contents: {
+                      a!cardLayout(
+                        contents: {
+                          a!richTextDisplayField(
+                            labelPosition: "COLLAPSED",
+                            value: {
+                              a!richTextItem(
+                                text: {
+                                  "Users Checked-In vs Total Users"
+                                },
+                                size: "MEDIUM_PLUS",
+                                style: {
+                                  "STRONG"
+                                }
+                              )
+                            },
+                            align: "CENTER",
+                            marginAbove: "LESS",
+                            marginBelow: "NONE"
+                          ),
+                          a!richTextDisplayField(
+                            labelPosition: "COLLAPSED",
+                            value: {
+                              " "
+                            },
+                            marginAbove: "NONE",
+                            marginBelow: "NONE"
+                          )
+                        },
+                        height: "AUTO",
+                        style: "#164B74",
+                        marginAbove: "NONE",
+                        marginBelow: "NONE",
+                        showBorder: false,
+                        showShadow: true
+                      ),
+                      a!cardLayout(
+                        contents: {
+                          a!gaugeField(
+                            labelPosition: "COLLAPSED",
+                            percentage: (local!testing.checkedIn_count/local!testing.attendeesId_count)*100,
+                            primaryText: a!gaugeFraction(local!testing.attendeesId_count),
+                            secondaryText: "",
+                            color: "#1d659c",
+                            marginAbove: "EVEN_LESS",
+                            marginBelow: "NONE"
+                          )
+                        },
+                        height: "MEDIUM",
+                        style: "NONE",
+                        marginAbove: "NONE",
+                        marginBelow: "LESS",
+                        showBorder: false
+                      )
+                    },
+                    height: "AUTO",
+                    style: "NONE",
+                    padding: "NONE",
+                    marginAbove: "NONE",
+                    marginBelow: "STANDARD",
+                    showBorder: false,
+                    showShadow: true
+                  )
+                },
+                divider: "ABOVE",
+                dividerWeight: "MEDIUM",
+                dividerColor: "#999999"
+              )
+            }
+          )
+        }
+      ),
+      a!columnsLayout(
+        columns: {
+          a!columnLayout(
+            contents: {
+              a!sectionLayout(
+                label: " MEETINGS PER ROOMS",
+                labelSize: "MEDIUM_PLUS",
+                labelHeadingTag: "H6",
+                labelColor: "STANDARD",
+                contents: {
+                  a!cardLayout(
+                    contents: {
+                      a!lineChartField(
+                        data: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting',
+                        config: a!lineChartConfig(
+                          primaryGrouping: 
+                          a!grouping(
+                            field: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime',
+                            alias: "Month",
+                            interval: "MONTH_TEXT"
+                          ),
+                          secondaryGrouping: a!grouping(
+                            field: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location',
+                            alias: "Meeting_Room",
+                            formatValue: "Meeting Room " & fv!value
+                          ),
+                          measures: {
+                            a!measure(
+                              function: "COUNT",
+                              field: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{56668138-6a6e-4a79-836a-3ab561a0eab2}meetingId',
+                              alias: "meetingId_count_measure1"
+                            )
+                          },
+                          dataLimit: 100
+                        ),
+                        label: "Line Chart",
+                        labelPosition: "COLLAPSED",
+                        xAxisTitle: "Meetings Per Month",
+                        yAxisTitle: "Number of meeting (Per Meeting Room)",
+                        yAxisMin: 0.0,
+                        yAxisMax: "AUTO",
+                        referenceLines: {},
+                        showLegend: true,
+                        showDataLabels: true,
+                        showTooltips: false,
+                        allowDecimalAxisLabels: false,
+                        connectNulls: false,
+                        colorScheme: a!colorSchemeCustom(
+                          colors: {
+                            "#b9cedd",
+                            "#315065",
+                            "#0087ac",
+                            "#005faa",
+                            "#323b81"
+                          }
+                        ),
+                        height: "MEDIUM",
+                        xAxisStyle: "STANDARD",
+                        yAxisStyle: "STANDARD",
+                        refreshAlways: false,
+                        refreshAfter: "RECORD_ACTION"
+                      )
+                    },
+                    height: "AUTO",
+                    style: "NONE",
+                    marginBelow: "STANDARD",
+                    showBorder: false,
+                    showShadow: true
+                  )
+                },
+                divider: "ABOVE",
+                dividerWeight: "MEDIUM",
+                dividerColor: "#999999"
+              )
+            }
+          ),
+          a!columnLayout(
+            contents: {
+              a!sectionLayout(
+                label: "MEETINGS STATUS",
+                labelSize: "MEDIUM_PLUS",
+                labelHeadingTag: "H6",
+                labelColor: "STANDARD",
+                contents: {
+                  a!cardLayout(
+                    contents: {
+                      a!pieChartField(
+                        label: "Pie Chart",
+                        labelPosition: "COLLAPSED",
+                        series: {
+                          a!chartSeries(label: "Completed", data: count(rule!MMS_qe_completedMeetingData())),
+                          a!chartSeries(label: "Cancelled", data: count(rule!MMS_qe_canceledMeetingData())),
+                          a!chartSeries(label: "Ongoing", data: count(rule!MMS_qe_ongoingMeetingData())),
+                          a!chartSeries(label: "Upcomming", data: count(rule!MMS_qe_upcomingMeetingData()))
+                        },
+                        showDataLabels: true,
+                        showAsPercentage: true,
+                        colorScheme: a!colorSchemeCustom(
+                          colors: {
+                            "#1D659C",
+                            "#c0d3e0",
+                            "#5387ac",
+                            "#487594",
+                            "#323b81"
+                          }
+                        ),
+                        style: "DONUT",
+                        seriesLabelStyle: "ON_CHART",
+                        height: "MEDIUM"
+                      )
+                    },
+                    height: "AUTO",
+                    style: "NONE",
+                    marginBelow: "STANDARD",
+                    showBorder: false,
+                    showShadow: true
+                  )
+                },
+                divider: "ABOVE",
+                dividerWeight: "MEDIUM",
+                dividerColor: "#999999"
+              )
+            }
+          )
+        }
+      )
+    },
+    height: "AUTO",
+    style: "#DEE8EF",
+    marginBelow: "STANDARD",
+    showBorder: false
+  )
+  },
+    contentsPadding: "NONE"
+  )
+
+)

@@ -1,0 +1,717 @@
+a!localVariables(
+  local!updateDataBool: a!defaultValue(ri!updateDataBool, false),
+  local!labels: cons!MMS_CONS_labels,
+  local!meeting: ri!Meeting,
+  local!keys: a!keys(local!meeting),
+  local!oldUsers: a!defaultValue(
+    index(
+      rule!MMS_qe_genericQuery(
+        record: 'recordType!{b011d6e4-229c-4c8b-8659-6ba8706e0354}MMS Attendee',
+        filters: {
+          a!map(
+            field: 'recordType!{b011d6e4-229c-4c8b-8659-6ba8706e0354}MMS Attendee.fields.{537cf729-3878-4f33-ad43-d4530fd3591c}meetingId',
+            operator: "=",
+            value: a!defaultValue(
+              ri!Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{56668138-6a6e-4a79-836a-3ab561a0eab2}meetingId'],
+              1
+            )
+          ),
+          a!map(
+            field: 'recordType!{b011d6e4-229c-4c8b-8659-6ba8706e0354}MMS Attendee.fields.{4e6a380e-f4f3-45b4-8fa2-04285f6b7cb8}isactive',
+            operator: "=",
+            value: true()
+          )
+        }
+      ),
+      'recordType!{b011d6e4-229c-4c8b-8659-6ba8706e0354}MMS Attendee.fields.{47dfecf1-c935-4076-88c6-6b863e0e0ca6}attendeeName'
+    ),
+    {}
+  ),
+  local!updatedusers:local!oldUsers,
+
+  local!removedUsers: difference(
+    touniformstring(local!oldUsers),
+    touniformstring(local!updatedUsers)
+  ),
+  local!addedUsers: difference(
+    touniformstring(local!updatedUsers),
+    touniformstring(local!oldUsers)
+  ),
+  local!datamap: {
+    a!map(
+      fieldName: null(),
+      oldValue: null(),
+      newValue: null()
+    )
+  },
+  local!refresh: 1,
+  local!removedMap: { a!map(field: null()) },
+  local!metaData: {
+    "postMeetingSummary",
+    "createdBy",
+    "createdOn",
+    "modifiedBy",
+    "modifiedOn"
+  },
+  local!submit: false,
+  local!readOnly: false,
+  a!sectionLayout(
+    label: if(
+      local!updateDataBool,
+      "UPDATE MEETING",
+      "CREATE MEETING"
+    ),
+    labelSize: "MEDIUM_PLUS",
+    labelHeadingTag: "H6",
+    labelColor: "STANDARD",
+    contents: {
+      a!columnsLayout(
+        columns: {
+          a!columnLayout(contents: {}, width: "EXTRA_NARROW"),
+          a!columnLayout(
+            contents: {
+              if(
+                local!submit,
+                rule!MMS_uiMeetingConfirmation(ri!meeting),
+                a!cardLayout(
+                  contents: {
+                    a!columnsLayout(
+                      columns: {
+                        a!columnLayout(
+                          contents: {
+                            a!richTextDisplayField(
+                              labelPosition: "COLLAPSED",
+                              value: {
+                                a!richTextItem(
+                                  text: {
+                                    a!richTextIcon(icon: "book"),
+                                    " ",
+                                    index(local!labels, 1, {})
+                                  },
+                                  size: "MEDIUM",
+                                  style: { "STRONG" }
+                                ),
+                                a!richTextItem(text: { " " }, style: { "STRONG" }),
+                                a!richTextItem(
+                                  text: { "*" },
+                                  color: "ACCENT",
+                                  style: { "STRONG" }
+                                )
+                              }
+                            )
+                          },
+                          width: "NARROW"
+                        ),
+                        a!columnLayout(
+                          contents: {
+                            a!textField(
+                              label: index(local!labels, 1, {}),
+                              labelPosition: "COLLAPSED",
+                              value: local!Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{116f6f8a-11fa-4d59-9268-3d6b9245ead7}subject'],
+                              saveInto: local!Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{116f6f8a-11fa-4d59-9268-3d6b9245ead7}subject'],
+                              characterLimit: 255,
+                              showCharacterCount: false,
+                              required: true(),
+                              readOnly: local!readOnly
+                            )
+                          }
+                        )
+                      },
+                      alignVertical: "TOP",
+                      marginAbove: "STANDARD",
+                      marginBelow: "MORE"
+                    ),
+                    a!columnsLayout(
+                      columns: {
+                        a!columnLayout(
+                          contents: {
+                            a!richTextDisplayField(
+                              labelPosition: "COLLAPSED",
+                              value: {
+                                a!richTextItem(
+                                  text: {
+                                    a!richTextIcon(icon: "file-signature"),
+                                    " ",
+                                    index(local!labels, 2, {})
+                                  },
+                                  size: "MEDIUM",
+                                  style: { "STRONG" }
+                                ),
+                                a!richTextItem(
+                                  text: { " *" },
+                                  color: "ACCENT",
+                                  size: "MEDIUM",
+                                  style: { "STRONG" }
+                                )
+                              }
+                            )
+                          },
+                          width: "NARROW"
+                        ),
+                        a!columnLayout(
+                          contents: {
+                            a!paragraphField(
+                              label: index(local!labels, 2, {}),
+                              labelPosition: "COLLAPSED",
+                              value: local!Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{db03f0ab-b2f6-49b8-bfa3-c8ffb5a15861}description'],
+                              saveInto: local!Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{db03f0ab-b2f6-49b8-bfa3-c8ffb5a15861}description'],
+                              characterLimit: 255,
+                              showCharacterCount: false,
+                              required: true,
+                              readOnly: local!readOnly,
+                              validations: if(
+                                and(
+                                  local!updateDataBool,
+                                  rule!MMS_checkIsNull(
+                                    local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{db03f0ab-b2f6-49b8-bfa3-c8ffb5a15861}description']
+                                  )
+                                ),
+                                "Enter Description",
+                                ""
+                              )
+                            )
+                          }
+                        )
+                      },
+                      marginBelow: "MORE"
+                    ),
+                    a!columnsLayout(
+                      columns: {
+                        a!columnLayout(
+                          contents: {
+                            a!richTextDisplayField(
+                              labelPosition: "COLLAPSED",
+                              value: {
+                                a!richTextItem(
+                                  text: {
+                                    a!richTextIcon(icon: "clock"),
+                                    " ",
+                                    index(local!labels, 3, {})
+                                  },
+                                  size: "MEDIUM",
+                                  style: { "STRONG" }
+                                ),
+                                a!richTextItem(
+                                  text: { "*" },
+                                  color: "ACCENT",
+                                  size: "MEDIUM",
+                                  style: { "STRONG" }
+                                )
+                              }
+                            )
+                          },
+                          width: "NARROW"
+                        ),
+                        a!columnLayout(
+                          contents: {
+                            a!dateTimeField(
+                              label: index(local!labels, 3, {}),
+                              labelPosition: "COLLAPSED",
+                              value: local!Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime'],
+                              saveInto: local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime'],
+                              required: true(),
+                              readOnly: local!readOnly,
+                              validations: if(
+                                and(
+                                  a!isNotNullOrEmpty(
+                                    local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime']
+                                  ),
+                                  local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime'] < now()
+                                ),
+                                "Enter Valid Date",
+                                ""
+                              )
+                            )
+                          }
+                        )
+                      },
+                      marginBelow: "MORE"
+                    ),
+                    a!columnsLayout(
+                      columns: {
+                        a!columnLayout(
+                          contents: {
+                            a!richTextDisplayField(
+                              labelPosition: "COLLAPSED",
+                              value: {
+                                a!richTextItem(
+                                  text: {
+                                    a!richTextIcon(icon: "stopwatch"),
+                                    " ",
+                                    index(local!labels, 4, {})
+                                  },
+                                  size: "MEDIUM",
+                                  style: { "STRONG" }
+                                ),
+                                a!richTextItem(
+                                  text: { "*" },
+                                  color: "ACCENT",
+                                  size: "MEDIUM",
+                                  style: { "STRONG" }
+                                )
+                              }
+                            )
+                          },
+                          width: "NARROW"
+                        ),
+                        a!columnLayout(
+                          contents: {
+                            a!dropdownField(
+                              label: "",
+                              labelPosition: "COLLAPSED",
+                              placeholder: "---Choose Meeting Duration---",
+                              choiceLabels: tointeger({ rule!MMS_qe_lookupQuery(4) }),
+                              choiceValues: tointeger({ rule!MMS_qe_lookupQuery(4) }),
+                              value: local!Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{5ca83c47-508c-42e5-850d-64ac6851a228}duration'],
+                              saveInto: local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{5ca83c47-508c-42e5-850d-64ac6851a228}duration'],
+                              required: true(),
+                              disabled: local!readOnly
+                            )
+                          }
+                        )
+                      },
+                      marginBelow: "MORE"
+                    ),
+                    a!columnsLayout(
+                      columns: {
+                        a!columnLayout(
+                          contents: {
+                            a!richTextDisplayField(
+                              labelPosition: "COLLAPSED",
+                              value: {
+                                a!richTextItem(
+                                  text: {
+                                    a!richTextIcon(icon: "map-marked"),
+                                    " ",
+                                    index(local!labels, 5, {})
+                                  },
+                                  size: "MEDIUM",
+                                  style: { "STRONG" }
+                                ),
+                                a!richTextItem(
+                                  text: { "*" },
+                                  color: "ACCENT",
+                                  size: "MEDIUM",
+                                  style: { "STRONG" }
+                                )
+                              }
+                            )
+                          },
+                          width: "NARROW"
+                        ),
+                        a!columnLayout(
+                          contents: {
+                            a!dropdownField(
+                              label: "",
+                              labelPosition: "COLLAPSED",
+                              placeholder: "---Choose Meeting Room---",
+                              choiceLabels: touniformstring({ rule!MMS_qe_lookupQuery(1) }),
+                              choiceValues: tointeger({ rule!MMS_qe_lookupQuery(1) }),
+                              value: local!Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location'],
+                              saveInto: local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location'],
+                              required: true(),
+                              disabled: local!readOnly
+                            )
+                          }
+                        )
+                      },
+                      marginBelow: "MORE"
+                    ),
+                    a!columnsLayout(
+                      columns: {
+                        a!columnLayout(
+                          contents: {
+                            a!cardLayout(
+                              contents: {
+                                a!richTextDisplayField(
+                                  labelPosition: "COLLAPSED",
+                                  value: {
+                                    a!richTextItem(
+                                      text: {
+                                        a!richTextIcon(icon: "user-friends"),
+                                        " ",
+                                        index(local!labels, 6)
+                                      },
+                                      size: "MEDIUM",
+                                      style: { "STRONG" }
+                                    ),
+                                    a!richTextItem(
+                                      text: { "*" },
+                                      color: "ACCENT",
+                                      size: "MEDIUM",
+                                      style: { "STRONG" }
+                                    )
+                                  }
+                                )
+                              },
+                              height: "AUTO",
+                              style: "#dee8ef",
+                              padding: "NONE",
+                              marginAbove: "NONE",
+                              marginBelow: "NONE",
+                              showBorder: false
+                            )
+                          },
+                          width: "NARROW"
+                        ),
+                        a!columnLayout(
+                          contents: {
+                            a!cardLayout(
+                              contents: {
+                                a!pickerFieldUsers(
+                                  label: "",
+                                  labelPosition: "COLLAPSED",
+                                  placeholder: "Invitees",
+                                  value: if(
+                                    local!updateDataBool = false,
+                                    union(ri!users, ri!users),
+                                    union(local!updatedusers, local!updatedusers)
+                                  ),
+                                  saveInto: if(
+                                    local!updateDataBool,
+                                    a!save(
+                                      local!updatedusers,
+                                      union(save!value, save!value)
+                                    ),
+                                    a!save(ri!users, union(save!value, save!value))
+                                  ),
+                                  required: true(),
+                                  readOnly: local!readOnly,
+                                  validations: {
+                                    if(
+                                      and(
+                                        local!updateDataBool,
+                                        a!isNullOrEmpty(local!updatedusers)
+                                      ),
+                                      "Enter atleast 1 attendee",
+                                      ""
+                                    ),
+                                    if(contains(ri!users,tostring(loggedInUser())),proper(user(loggedInUser(),"firstName"))&" "&proper(user(loggedInUser(),"lastName"))&" cannot be an Attendee",{})
+                                  }
+                                )
+                              },
+                              height: "AUTO",
+                              style: "#dee8ef",
+                              padding: "NONE",
+                              showBorder: false
+                            )
+                          }
+                        )
+                      },
+                      alignVertical: "MIDDLE"
+                    ),
+                    a!columnsLayout(
+                      columns: {
+                        a!columnLayout(
+                          contents: {
+                            a!cardLayout(
+                              contents: {
+                                a!richTextDisplayField(
+                                  labelPosition: "COLLAPSED",
+                                  value: {
+                                    a!richTextItem(
+                                      text: {
+                                        a!richTextIcon(icon: "hourglass-half"),
+                                        " ",
+                                        index(local!labels, 7)
+                                      },
+                                      size: "MEDIUM",
+                                      style: { "STRONG" }
+                                    ),
+                                    a!richTextItem(
+                                      text: { "*" },
+                                      color: "ACCENT",
+                                      size: "MEDIUM",
+                                      style: { "STRONG" }
+                                    )
+                                  }
+                                )
+                              },
+                              height: "AUTO",
+                              style: "#DEE8EF",
+                              padding: "NONE",
+                              marginAbove: "NONE",
+                              marginBelow: "NONE",
+                              showBorder: false
+                            )
+                          },
+                          width: "NARROW"
+                        ),
+                        a!columnLayout(
+                          contents: {
+                            a!radioButtonField(
+                              label: "",
+                              labelPosition: "COLLAPSED",
+                              choiceLabels: { "Yes", "No" },
+                              choiceValues: { 1, 0 },
+                              value: local!Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{4eea88ab-f0ad-4710-9fd0-07da8e63e9e4}sendReminder'],
+                              saveInto: local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{4eea88ab-f0ad-4710-9fd0-07da8e63e9e4}sendReminder'],
+                              required: true,
+                              choiceLayout: "COMPACT",
+                              validations: {}
+                            )
+                          }
+                        )
+                      },
+                      alignVertical: "MIDDLE"
+                    ),
+                    a!columnsLayout(
+                      columns: {
+                        a!columnLayout(
+                          contents: {
+                            a!cardLayout(
+                              contents: {
+                                a!richTextDisplayField(
+                                  labelPosition: "COLLAPSED",
+                                  value: {
+                                    a!richTextItem(
+                                      text: {
+                                        a!richTextIcon(icon: "book"),
+                                        " ",
+                                        index(local!labels, 8)
+                                      },
+                                      size: "MEDIUM",
+                                      style: { "STRONG" }
+                                    ),
+                                    a!richTextItem(
+                                      text: { "*" },
+                                      color: "ACCENT",
+                                      size: "MEDIUM",
+                                      style: { "STRONG" }
+                                    )
+                                  }
+                                )
+                              },
+                              height: "AUTO",
+                              style: "#DEE8EF",
+                              padding: "NONE",
+                              marginBelow: "STANDARD",
+                              showBorder: false
+                            )
+                          },
+                          width: "NARROW"
+                        ),
+                        a!columnLayout(
+                          contents: {
+                            a!cardLayout(
+                              contents: {
+                                a!dateTimeField(
+                                  label: "",
+                                  labelPosition: "COLLAPSED",
+                                  value: local!Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{03f086d5-6878-4372-8797-0652f69faddb}reminderTime'],
+                                  saveInto: {
+                                    local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{03f086d5-6878-4372-8797-0652f69faddb}reminderTime']
+                                  },
+                                  validations: if(
+                                    and(
+                                      a!isNotNullOrEmpty(
+                                        local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{03f086d5-6878-4372-8797-0652f69faddb}reminderTime']
+                                      ),
+                                      a!isNotNullOrEmpty(
+                                        'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime'
+                                      ),
+                                      local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{03f086d5-6878-4372-8797-0652f69faddb}reminderTime'] < now(),
+                                      local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{03f086d5-6878-4372-8797-0652f69faddb}reminderTime'] > local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime']
+                                    ),
+                                    "Enter Valid Reminder Time",
+                                    ""
+                                  )
+                                )
+                              },
+                              height: "AUTO",
+                              style: "#DEE8EF",
+                              padding: "NONE",
+                              marginBelow: "STANDARD",
+                              showBorder: false
+                            )
+                          }
+                        )
+                      },
+                      showWhen: if(
+                        or(
+                          isnull(
+                            local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{4eea88ab-f0ad-4710-9fd0-07da8e63e9e4}sendReminder']
+                          ),
+                          local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{4eea88ab-f0ad-4710-9fd0-07da8e63e9e4}sendReminder'] = 0
+                        ),
+                        false,
+                        true
+                      )
+                    ),
+                    a!buttonLayout(
+                      primaryButtons: {
+                        /*this is for readonly true*/
+                        if(
+                          local!updateDataBool = true,
+                          {},
+                          a!buttonWidget(
+                            label: if(
+                              local!updateDataBool,
+                              cons!MMS_BUTTON_LABELS[10],
+                              cons!MMS_BUTTON_LABELS[1]
+                            ) & " Meeting",
+                            saveInto: { a!save(local!readOnly, true()) },
+                            disabled: or(
+                              a!isNullOrEmpty(
+                                local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{116f6f8a-11fa-4d59-9268-3d6b9245ead7}subject']
+                              ),
+                              a!isNullOrEmpty(
+                                local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{db03f0ab-b2f6-49b8-bfa3-c8ffb5a15861}description']
+                              ),
+                              a!isNullOrEmpty(
+                                local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime']
+                              ),
+                              a!isNullOrEmpty(
+                                local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{5ca83c47-508c-42e5-850d-64ac6851a228}duration']
+                              ),
+                              a!isNullOrEmpty(
+                                local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location']
+                              ),
+                              a!isNullOrEmpty(
+                                local!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{4eea88ab-f0ad-4710-9fd0-07da8e63e9e4}sendReminder']
+                              ),
+                              a!isNullOrEmpty(ri!users)
+                            ),
+                            showWhen: not(local!readOnly)
+                          )
+                        ),
+                        /*this is for create and update submit*/
+                        a!buttonWidget(
+                          label: if(
+                            local!updateDataBool,
+                            cons!MMS_BUTTON_LABELS[10],
+                            cons!MMS_BUTTON_LABELS[7]
+                          ) & " Meeting",
+                          saveInto: {
+                            if(
+                              local!updateDataBool,
+                              {
+                                a!save(ri!addedUsers, local!addedUsers),
+                                a!save(ri!removedUsers, local!removedUsers),
+                                a!save(ri!users, local!updatedusers),
+                                a!save(ri!updateMeeting, local!meeting),
+                                a!save(
+                                  ri!updateMeeting,
+                                  a!update(
+                                    data:ri!updateMeeting,
+                                    index: {
+                                      'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{f9080a5b-c31e-4a53-a2dd-5c15e1baa0f7}modifiedBy',
+                                      'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{da5f8581-6b1a-4229-80a5-1b9ba7e9d21e}modifiedOn'
+                                    },
+                                    value: {
+                                     loggedInUser(),
+                                     now()
+                                    }
+                                  )
+                                ),
+                                a!forEach(
+                                  items: local!keys,
+                                  expression: if(
+                                    or(
+                                      a!isNullOrEmpty(index(ri!updateMeeting, fv!item)),
+                                      a!isNullOrEmpty(index(ri!Meeting, fv!item)),
+                                      index(ri!Meeting, fv!item) = index(ri!updateMeeting, fv!item),
+                                      contains(
+                                        local!metaData,
+                                        touniformstring(fv!item)
+                                      )
+                                    ),
+                                    { a!save(local!removedMap.field, fv!item) },
+                                    {
+                                      a!save(
+                                        local!datamap.fieldName[local!refresh],
+                                        fv!item
+                                      ),
+                                      a!save(
+                                        local!datamap.oldValue[local!refresh],
+                                        index(ri!Meeting, fv!item)
+                                      ),
+                                      a!save(
+                                        local!datamap.newValue[local!refresh],
+                                        index(ri!updateMeeting, fv!item)
+                                      ),
+                                      a!save(local!refresh, local!refresh + 1)
+                                    }
+                                  )
+                                ),
+                                if(
+                                  or(
+                                    a!isNotNullOrEmpty(local!removedUsers),
+                                    a!isNotNullOrEmpty(local!addedUsers)
+                                  ),
+                                  {
+                                    a!save(
+                                      local!datamap.fieldName[local!refresh],
+                                      "Attendees"
+                                    ),
+                                    a!save(
+                                      local!datamap.oldValue[local!refresh],
+                                      joinarray(local!oldusers, ";")
+                                    ),
+                                    a!save(
+                                      local!datamap.newValue[local!refresh],
+                                      joinarray(local!updatedusers, ";")
+                                    )
+                                  },
+                                  {}
+                                ),
+                                a!save(ri!dataMap, local!datamap)
+                              },
+                              {
+                                
+                                a!save(ri!meeting, local!meeting),
+                                a!save(ri!meeting,a!update(
+                                  data: ri!meeting,
+                                  index:{
+                                    'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{75d324d7-2950-4734-9095-39bff0602d59}createdBy',
+                                    'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{50201aa4-7939-42bf-8529-7b2b818f6178}createdOn',
+                                    'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{f101634d-f64a-4ef9-968b-0704dbc4ff69}isactive'
+                                  },
+                                  value:{
+                                    loggedInUser(),
+                                    now(),
+                                    true()
+                                  }
+                                )),
+                                a!save(local!submit, true())
+                              }
+                              
+                            )
+                          },
+                          submit: if(local!updateDataBool, true, false),
+                          style: "PRIMARY",
+                          showWhen: if(local!updateDataBool, true, local!readOnly),
+                          validate: true
+                        )
+                      },
+                      secondaryButtons: {
+                        a!buttonWidget(
+                          label: "Cancel",
+                          value: true,
+                          saveInto: ri!cancel,
+                          submit: true,
+                          style: "NORMAL",
+                          validate: false
+                        )
+                      }
+                    )
+                  },
+                  height: "AUTO",
+                  style: "#DEE8EF",
+                  marginAbove: "NONE",
+                  marginBelow: "NONE",
+                  showBorder: false
+                )
+              )
+            },
+            width: "AUTO"
+          ),
+          a!columnLayout(contents: {}, width: "EXTRA_NARROW")
+        }
+      )
+    },
+    divider: "ABOVE",
+    dividerWeight: "MEDIUM",
+    dividerColor: "#999999"
+  )
+)

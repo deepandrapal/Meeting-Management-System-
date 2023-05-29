@@ -1,0 +1,144 @@
+a!localVariables(
+  local!checked:null,
+  local!maindata:a!recordData(
+    recordType: 'recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit',
+    filters: a!queryFilter(
+      field: 'recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{02279d89-8082-4f16-a211-f26f8c0d6eed}meetingId',
+      operator: "=",
+      value: a!defaultValue(ri!meetId,0)
+    )
+  ),
+  local!data:a!recordData(
+    recordType: 'recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit',
+    filters: if(
+      a!isNullOrEmpty(local!checked),
+      null,
+      a!queryFilter(
+        field: 'recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{91be5bda-9eec-407e-b022-ab264b3fd7e2}meetingAuditId',
+        operator: "=",
+        value: local!checked
+      )
+    )
+  ),
+  a!headerContentLayout(
+  header: {},
+  contents: {
+  a!cardLayout(
+    contents: {
+      a!richTextDisplayField(
+        labelPosition: "COLLAPSED",
+        value: {
+          a!richTextItem(
+            text: {
+              " ",
+              a!richTextIcon(
+                icon: "book"
+              ),
+              " AUDIT DETAILS"
+            },
+            size: "LARGE",
+            style: {
+              "STRONG"
+            }
+          )
+        },
+        marginAbove: "LESS"
+      ),
+      a!cardLayout( 
+        contents: {
+          a!gridField(
+            label: "Audit",
+            labelPosition: "COLLAPSED",
+            data: if(a!isNullOrEmpty(local!checked),local!maindata,local!data),
+            columns: {
+              a!gridColumn(
+                label: "Mms Meeting",
+                sortField: 'recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.relationships.{dec30167-eb26-4dbe-bf6f-2f20d61504b3}mmsMeeting.fields.{116f6f8a-11fa-4d59-9268-3d6b9245ead7}subject',
+                value: a!linkField(
+                  links: {
+                    a!recordLink(
+                      label: fv!row['recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.relationships.{dec30167-eb26-4dbe-bf6f-2f20d61504b3}mmsMeeting.fields.{116f6f8a-11fa-4d59-9268-3d6b9245ead7}subject'],
+                      recordType: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting',
+                      identifier: fv!row['recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{02279d89-8082-4f16-a211-f26f8c0d6eed}meetingId']
+                    )
+                  }
+                )
+              ),
+              a!gridColumn(
+                label: "Event",
+                sortField: 'recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{9ffebcd5-2730-4c5c-a8af-99d9e6973598}event',
+                value: fv!row['recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{9ffebcd5-2730-4c5c-a8af-99d9e6973598}event']
+              ),
+              a!gridColumn(
+                label: "Created By",
+                sortField: 'recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{92067752-0626-4347-97f4-3747b413dddc}createdBy',
+                value: concat(proper(user(fv!row['recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{92067752-0626-4347-97f4-3747b413dddc}createdBy'],"firstName"))," ",proper(user(fv!row['recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{92067752-0626-4347-97f4-3747b413dddc}createdBy'],"lastName")))
+              ),
+              a!gridColumn(
+                label: "Created On",
+                sortField: 'recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{0cb8876b-c872-4d9e-947f-a2e97a9a7945}createdOn',
+                value: if(
+                  isnull(fv!row['recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{0cb8876b-c872-4d9e-947f-a2e97a9a7945}createdOn']),
+                  fv!row['recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{0cb8876b-c872-4d9e-947f-a2e97a9a7945}createdOn'],
+                  rule!MMS_dateTimeDisplay(datetext(fv!row['recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{0cb8876b-c872-4d9e-947f-a2e97a9a7945}createdOn'], "default"))
+                ),
+                align: "END"
+              ),
+              a!gridColumn(
+                label: "Check",
+                sortField: 'recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{02279d89-8082-4f16-a211-f26f8c0d6eed}meetingId',
+                value: if(
+                  fv!row['recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.fields.{9ffebcd5-2730-4c5c-a8af-99d9e6973598}event'] = "Update Meeting",
+                  a!richTextDisplayField(
+                    value: a!richTextIcon(
+                      icon: if(a!isNullOrEmpty(local!checked),"eye","times"),
+                      color: if(a!isNullOrEmpty(local!checked),"#12130F","NEGATIVE"),
+                      size: "MEDIUM",
+                      link: a!dynamicLink(
+                        value: fv!identifier,
+                        saveInto: { 
+                          if(a!isNotNullOrEmpty(local!checked),a!save(local!checked,null),a!save(local!checked, save!value))
+                        }
+                      ),
+                      linkStyle: "STANDALONE"
+                    ),
+                    align: "CENTER"
+                  ),
+                  null
+                )
+              )
+            },
+            pageSize: 7,
+            /*selectable: true,
+            selectionStyle: "ROW_HIGHLIGHT",
+            selectionValue: local!checked,
+            selectionSaveInto: { 
+              if(a!isNotNullOrEmpty(local!checked),a!save(local!checked,null),a!save(local!checked, save!value[1]))
+            },*/
+            disableRowSelectionWhen: count(local!checked) > 1,
+            validations: {},
+            borderStyle: "LIGHT",
+            refreshAfter: "RECORD_ACTION",
+            userFilters: 'recordType!{0ab8a6b2-f7cc-4c73-bf27-23694f5ad4ca}MMS Audit.filters.{2941ff75-79ca-4075-a5b6-e879af1b73e2}Event',
+            showSearchBox: true,
+            showRefreshButton: true
+          ) 
+        },
+        height: "AUTO",
+        style: "#ffffff",
+        padding: "LESS",
+        marginAbove: "LESS",
+        marginBelow: "STANDARD",
+        showBorder: false
+      ),
+      if(a!isNullOrEmpty(local!checked),{},rule!MMS_uiAuditDetails(local!checked))
+    },
+    height: "AUTO",
+    style: "#DEE8EF",
+    padding: "EVEN_LESS",
+    marginBelow: "STANDARD",
+    showBorder: false,
+    decorativeBarColor: "#DEE8EF"
+  )
+},
+  contentsPadding: "NONE"))

@@ -1,0 +1,302 @@
+a!localVariables(
+  local!color: rule!MMS_colorSelector(),
+  local!rating: 0,
+  local!feedback,
+  a!headerContentLayout(
+    header: {},
+    contents: {
+      a!sectionLayout(
+        label: "",
+        contents: {}
+      ),
+      a!sectionLayout(
+        label: "",
+        contents: {
+          a!columnsLayout(
+            columns: {
+              a!columnLayout(contents: {}, width: "NARROW"),
+              a!columnLayout(
+                contents: {
+                  a!cardLayout(
+                    contents: {
+                      a!columnsLayout(
+                        columns: {
+                          a!columnLayout(
+                            contents: {
+                              a!columnsLayout(
+                                columns: {
+                                  a!columnLayout(
+                                    contents: {
+                                      a!imageField(
+                                        label: "",
+                                        labelPosition: "ABOVE",
+                                        images: {
+                                          a!documentImage(document: 6827)
+                                        },
+                                        size: "MEDIUM",
+                                        isThumbnail: false,
+                                        style: "STANDARD",
+                                        align: "CENTER",
+                                        marginAbove: "NONE",
+                                        marginBelow: "NONE"
+                                      )
+                                    }
+                                  ),
+                                  a!columnLayout(
+                                    contents: {
+                                      a!sideBySideLayout(
+                                        items: {
+                                          a!sideBySideItem(
+                                            item: a!richTextDisplayField(
+                                              labelPosition: "COLLAPSED",
+                                              value: {
+                                                a!richTextHeader(text: { "How was your" ," ",ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{116f6f8a-11fa-4d59-9268-3d6b9245ead7}subject'], " meeting?" })
+                                              },
+                                              align: "CENTER",
+                                              marginAbove: "NONE",
+                                              marginBelow: "NONE"
+                                            )
+                                          ),
+                                          a!sideBySideItem(
+                                            item: a!richTextDisplayField(
+                                              labelPosition: "COLLAPSED",
+                                              value: {
+                                                a!richTextItem(
+                                                  text: {
+                                                    "We appreciate feedback about your experience."
+                                                  },
+                                                  style: {
+                                                    "STRONG"
+                                                  }
+                                                )
+                                              },
+                                              align: "CENTER",
+                                              marginAbove: "MORE",
+                                              marginBelow: "NONE"
+                                            )
+                                          )
+                                        },
+                                        spacing: "NONE",
+                                        marginAbove: "NONE",
+                                        marginBelow: "NONE",
+                                        stackWhen: {
+                                          "DESKTOP_WIDE",
+                                          "DESKTOP",
+                                          "DESKTOP_NARROW",
+                                          "TABLET_LANDSCAPE",
+                                          "TABLET_PORTRAIT",
+                                          "PHONE"
+                                        }
+                                      )
+                                    }
+                                  ),
+                                  a!columnLayout(
+                                    contents: {
+                                      a!cardLayout(
+                                        contents: {
+                                          a!sideBySideLayout(
+                                            items: a!forEach(
+                                              items: cons!MMS_RATING_EMOJI,
+                                              expression: a!sideBySideItem(
+                                                item: a!richTextDisplayField(
+                                                  value: a!richTextIcon(
+                                                    icon: if(
+                                                      local!rating = 0,
+                                                      fv!item,
+                                                      if(
+                                                        fv!index = local!rating,
+                                                        concat(char(rdrop(code(fv!item), 2))),
+                                                        fv!item
+                                                      )
+                                                    ),
+                                                    link: a!dynamicLink(value: fv!index, saveInto: local!rating),
+                                                    linkStyle: "STANDALONE",
+                                                    color: if(
+                                                      local!rating = fv!index,
+                                                      cons!MMS_EMOJI_COLORS[fv!index],
+                                                      "#999999"
+                                                    ),
+                                                    size: "LARGE"
+                                                  ),
+                                                  align: "CENTER"
+                                                )
+                                              )
+                                            )
+                                          )
+                                        },
+                                        style: "#efefef",
+                                        showBorder: false()
+
+                                      )
+                                    }
+                                  ),
+                                  a!columnLayout(
+                                    contents: {}
+                                  )
+                                },
+                                marginAbove: "NONE",
+                                marginBelow: "NONE",
+                                spacing: "NONE",
+                                stackWhen: {
+                                  "PHONE",
+                                  "TABLET_PORTRAIT",
+                                  "TABLET_LANDSCAPE",
+                                  "DESKTOP_NARROW",
+                                  "DESKTOP",
+                                  "DESKTOP_WIDE"
+                                },
+                                showDividers: false
+                              )
+                            },
+                            width: "AUTO"
+                          ),
+                          a!columnLayout(
+                            contents: {
+                              a!sideBySideLayout(
+                                items: {
+                                  a!sideBySideItem(
+                                    item: a!richTextDisplayField(
+                                      labelPosition: "COLLAPSED",
+                                      value: {
+                                        a!richTextItem(
+                                          text: {
+                                            "Please leave your feedback below"
+                                          },
+                                          style: {
+                                            "STRONG"
+                                          }
+                                        )
+                                      },
+                                      align: "CENTER",
+                                      marginAbove: "STANDARD"
+                                    )
+                                  ),
+                                  a!sideBySideItem(
+                                    item: a!paragraphField(
+                                      label: "",
+                                      labelPosition: "ABOVE",
+                                      instructions: "",
+                                      placeholder: "Share your experience...",
+                                      value: local!feedback,
+                                      saveInto: local!feedback,
+                                      refreshAfter: "UNFOCUS",
+                                      height: "MEDIUM",
+                                      validations: {}
+                                    )
+                                  )
+                                },
+                                marginAbove: "MORE",
+                                stackWhen: {
+                                  "PHONE",
+                                  "TABLET_PORTRAIT",
+                                  "TABLET_LANDSCAPE",
+                                  "DESKTOP_NARROW",
+                                  "DESKTOP",
+                                  "DESKTOP_WIDE"
+                                }
+                              )
+                            }
+                          ),
+                          a!columnLayout(contents: {})
+                        },
+                        stackWhen: {
+                          "DESKTOP_WIDE",
+                          "DESKTOP",
+                          "DESKTOP_NARROW",
+                          "TABLET_LANDSCAPE",
+                          "TABLET_PORTRAIT",
+                          "PHONE"
+                        }
+                      ),
+                      a!columnsLayout(
+                        columns: {
+                          a!columnLayout(
+                            contents: {
+                              a!cardLayout(
+                                contents: {
+                                  a!richTextDisplayField(
+                                    labelPosition: "COLLAPSED",
+                                    value: {
+                                      a!richTextItem(
+                                        text: { cons!MMS_BUTTON_LABELS[5] },
+                                        color: "#1d659c",
+                                        size: "MEDIUM",
+                                        style: { "STRONG" }
+                                      )
+                                    },
+                                    align: "CENTER"
+                                  )
+                                },
+                                link: a!submitLink(value: true, saveInto: ri!cancel ),
+                                height: "AUTO",
+                                style: "NONE",
+                                shape: "ROUNDED",
+                                marginBelow: "STANDARD",
+                                showBorder: true,
+                                showShadow: true
+                              )
+                            }
+                          ),
+                          a!columnLayout(
+                            contents: {}
+                          ),
+                          a!columnLayout(
+                            contents: {
+                              a!cardLayout(
+                                contents: {
+                                  a!richTextDisplayField(
+                                    labelPosition: "COLLAPSED",
+                                    value: {
+                                      a!richTextItem(
+                                        text: { cons!MMS_BUTTON_LABELS[2] },
+                                        color: "#ffffff",
+                                        size: "MEDIUM",
+                                        style: { "STRONG" }
+                                      )
+                                    },
+                                    align: "CENTER"
+                                  )
+                                },
+                                link: a!submitLink(
+                                  saveInto: {
+                                    a!save(
+                                      ri!rating,local!rating
+                                    ),
+                                    a!save(ri!feedback,local!feedback)
+                                  }
+                                ),
+                                height: "AUTO",
+                                style: "#1d659c",
+                                shape: "ROUNDED",
+                                marginBelow: "STANDARD",
+                                showShadow: true
+                              )
+                            }
+                          )
+                        },
+                        alignVertical: "MIDDLE",
+                        marginAbove: "LESS"
+                      )
+                    },
+                    height: "AUTO",
+                    style: "#DEE8EF",
+                    padding: "LESS",
+                    marginBelow: "STANDARD",
+                    showShadow: true()
+                  )
+                },
+                width: "WIDE_PLUS"
+              ),
+              a!columnLayout(contents: {}, width: "NARROW")
+            }
+          )
+        }
+      ),
+      a!sectionLayout(
+        label: "",
+        contents: {}
+      )
+    },
+    backgroundColor: local!color.feedbackBgcolor
+  )
+)

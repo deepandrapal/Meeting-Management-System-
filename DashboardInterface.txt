@@ -1,0 +1,339 @@
+a!localVariables(
+  local!datamap: {
+    a!map(
+      name: "TOTAL MEETINGS",
+      icon: "calendar-o",
+      val: count(rule!MMS_qe_totalMeeting())
+    ),
+    a!map(
+      name: "MEETINGS TODAY",
+      icon: "calendar-check-o",
+      val: count(rule!MMS_qe_todayMeetings())
+    ),
+    a!map(
+      name: "ONGOING MEETINGS",
+      icon: "clock-o",
+      val: count(rule!MMS_ongoing_meetings())
+    ),
+    a!map(
+      name: "INVITED MEETINGS",
+      icon: "calendar-plus-o",
+      val: count(rule!MMS_qe_invitedMeetings())
+    ),
+    a!map(
+      name: "CANCELLED MEETINGS",
+      icon: "calendar-times-o",
+      val: count(rule!MMS_qe_canceledMeet())
+    )
+  },
+  local!monthymeets: rule!MMS_qe_monthlyMeetings(),
+  local!attendedMeetings: rule!MMS_qe_dashboardAttendance(),
+  a!headerContentLayout(
+    header: {
+      a!cardLayout(
+        contents: {
+          a!sideBySideLayout(
+            items: {
+              a!sideBySideItem(
+                item: a!imageField(
+                  label: "",
+                  labelPosition: "ABOVE",
+                  images: { a!userImage(user: loggedInUser()) },
+                  size: "MEDIUM",
+                  isThumbnail: false,
+                  style: "AVATAR",
+                  align: "START"
+                ),
+                width: "MINIMIZE"
+              ),
+              a!sideBySideItem(
+                item: a!richTextDisplayField(
+                  labelPosition: "COLLAPSED",
+                  value: {
+                    a!richTextItem(
+                      text: {
+                        proper(
+                          user(loggedInUser(), "firstName") & " " & user(loggedInUser(), "lastName")
+                        )
+                      },
+                      size: "MEDIUM_PLUS",
+                      style: { "STRONG" }
+                    ),
+                    char(10),
+                    a!richTextItem(
+                      text: {
+                        a!richTextIcon(icon: "envelope-o", size: "MEDIUM"),
+                        loggedInUser()
+                      },
+                      size: "MEDIUM",
+                      style: { "STRONG" }
+                    )
+                  }
+                ),
+                width: "MINIMIZE"
+              ),
+              a!sideBySideItem(
+                item: a!recordActionField(
+                  actions: {
+                    a!recordActionItem(
+                      action: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.actions.{7b11e917-ab8c-43fe-a96d-bd9b0c9d5310}newMeeting'
+                    )
+                  },
+                  style: "CALL_TO_ACTION",
+                  display: "LABEL_AND_ICON",
+                  openActionsIn: "SAME_TAB",
+                  align: "END"
+                )
+              )
+            },
+            alignVertical: "MIDDLE",
+            spacing: "STANDARD"
+          )
+        },
+        height: "AUTO",
+        style: "#164b74",
+        marginBelow: "STANDARD",
+        showBorder: false
+      )
+    },
+    contents: {
+      a!columnsLayout(
+        columns: a!forEach(
+          items: local!datamap,
+          expression: a!columnLayout(
+            contents: {
+              a!cardLayout(
+                contents: {
+                  a!richTextDisplayField(
+                    labelPosition: "COLLAPSED",
+                    value: {
+                      a!richTextIcon(
+                        icon: index(fv!item, "icon"),
+                        color: "#164B74",
+                        size: "MEDIUM_PLUS"
+                      ),
+                      a!richTextItem(
+                        text: " " & index(fv!item, "name"),
+                        color: "#4C87B4",
+                        size: "MEDIUM",
+                        style: "STRONG"
+                      )
+                    },
+                    preventWrapping: false,
+                    align: "CENTER"
+                  ),
+                  a!richTextDisplayField(
+                    labelPosition: "COLLAPSED",
+                    value: {
+                      a!richTextItem(
+                        text: { index(fv!item, "val") },
+                        linkStyle: "STANDALONE",
+                        color: "#164B74",
+                        size: "MEDIUM_PLUS",
+                        style: { "STRONG" }
+                      )
+                    },
+                    align: "CENTER"
+                  )
+                },
+                link: a!startProcessLink(
+                  processModel: cons!MMS_PM_GENERIC_MEETINGS,
+                  processParameters: { choice: fv!index }
+                ),
+                height: "AUTO",
+                style: "NONE",
+                padding: "NONE",
+                marginBelow: "STANDARD",
+                showBorder: false,
+                showShadow: true,
+                decorativeBarPosition: "TOP",
+                decorativeBarColor: "#1d659c"
+              )
+            }
+          )
+        )
+      ),
+      a!columnsLayout(
+        columns: {
+          a!columnLayout(
+            contents: {
+              a!gaugeField(
+                labelPosition: "COLLAPSED",
+                percentage: (
+                  local!attendedMeetings.checkedIn_count / local!attendedMeetings.createdBy_count
+                ) * 100,
+                primaryText: a!gaugePercentage(),
+                secondaryText: "ATTENDANCE",
+                color: "#4c87b4",
+                size: "MEDIUM",
+                align: "CENTER",
+                marginAbove: "STANDARD"
+              )
+            },
+            width: "NARROW_PLUS"
+          ),
+          a!columnLayout(
+            contents: {
+              a!sectionLayout(
+                label: "MONTHLY MEETINGS",
+                labelSize: "MEDIUM_PLUS",
+                labelHeadingTag: "H6",
+                labelColor: "STANDARD",
+                contents: {
+                  a!lineChartField(
+                    label: "Monthly Meetings",
+                    labelPosition: "COLLAPSED",
+                    categories: { local!monthymeets.MONTHS },
+                    series: {
+                      a!chartSeries(
+                        label: "",
+                        data: { local!monthymeets.MONTHLY_MEETINGS }
+                      )
+                    },
+                    xAxisTitle: "Months",
+                    yAxisTitle: "",
+                    showLegend: false,
+                    showTooltips: false,
+                    connectNulls: false,
+                    colorScheme: a!colorSchemeCustom(
+                      colors: {
+                        "#68a1d0",
+                        "#00a88f",
+                        "#0087ac",
+                        "#005faa",
+                        "#323b81"
+                      }
+                    ),
+                    height: "SHORT",
+                    xAxisStyle: "STANDARD",
+                    yAxisStyle: "STANDARD"
+                  )
+                },
+                divider: "ABOVE",
+                dividerWeight: "MEDIUM",
+                dividerColor: "#999999"
+              )
+            }
+          )
+        },
+        alignVertical: "TOP",
+        marginAbove: "LESS",
+        marginBelow: "MORE"
+      ),
+      a!columnsLayout(
+        columns: {
+          a!columnLayout(
+            contents: a!sectionLayout(
+              label: "ONGOING MEETINGS",
+              labelIcon: "calendar-alt",
+              labelSize: "MEDIUM_PLUS",
+              labelHeadingTag: "H6",
+              labelColor: "STANDARD",
+              contents: {
+                a!cardLayout(
+                  contents: {
+                    a!gridField(
+                      data: a!recordData(
+                        recordType: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting',
+                        filters: a!queryLogicalExpression(
+                          operator: "AND",
+                          filters: {
+                            a!queryFilter(
+                              field: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{56668138-6a6e-4a79-836a-3ab561a0eab2}meetingId',
+                              operator: "in",
+                              value: a!defaultValue(
+                                value: tointeger(rule!MMS_ongoing_meetings()),
+                                default: { 0 }
+                              )
+                            )
+                          },
+                          ignoreFiltersWithEmptyValues: true
+                        )
+                      ),
+                      columns: {
+                        a!gridColumn(
+                          label: "Subject",
+                          value: a!linkField(
+                            links: a!recordLink(
+                              label: fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{116f6f8a-11fa-4d59-9268-3d6b9245ead7}subject'],
+                              recordType: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting',
+                              identifier: fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{56668138-6a6e-4a79-836a-3ab561a0eab2}meetingId']
+                            )
+                          )
+                        ),
+                        a!gridColumn(
+                          label: "Description",
+                          value: fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{db03f0ab-b2f6-49b8-bfa3-c8ffb5a15861}description']
+                        ),
+                        a!gridColumn(
+                          label: "Date and Time",
+                          value: rule!MMS_dateTimeDisplay(
+                            fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime']
+                          )
+                        ),
+                        a!gridColumn(
+                          label: "Location",
+                          value: "Conference Room " & fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location']
+                        )
+                      },
+                      borderStyle: "LIGHT"
+                    )
+                  },
+                  height: "AUTO",
+                  style: "#DEE8EF",
+                  padding: "EVEN_LESS",
+                  marginBelow: "STANDARD",
+                  showBorder: false
+                )
+              },
+              isInitiallyCollapsed: true,
+              divider: "ABOVE",
+              dividerWeight: "MEDIUM",
+              dividerColor: "#999999"
+            )
+          ),
+          a!columnLayout(
+            contents: {
+              a!sectionLayout(
+                label: "ACTIVE TASK'S",
+                labelSize: "MEDIUM_PLUS",
+                labelHeadingTag: "H6",
+                labelColor: "STANDARD",
+                contents: {
+                  a!cardLayout(
+                    contents: { rule!MMS_uiCheckInTaskReports() },
+                    height: "AUTO",
+                    style: "#c9dae5",
+                    padding: "EVEN_LESS",
+                    marginAbove: "NONE",
+                    marginBelow: "STANDARD",
+                    showBorder: false,
+                    showShadow: true
+                  )
+                },
+                divider: "ABOVE",
+                dividerWeight: "MEDIUM",
+                dividerColor: "#999999",
+                marginAbove: "NONE"
+              )
+            },
+            width: if(
+              a!isPageWidth(
+                {
+                  "PHONE",
+                  "TABLET_PORTRAIT",
+                  "TABLET_LANDSCAPE"
+                }
+              ),
+              "NARROW_PLUS",
+              "MEDIUM_PLUS"
+            )
+          )
+        },
+        alignVertical: "TOP"
+      )
+    },
+    backgroundColor: "#DEE8EF",
+    contentsPadding: "EVEN_LESS"
+  )
+)

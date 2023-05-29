@@ -1,0 +1,34 @@
+a!localVariables(
+  a!gridField(
+  data: rule!MMS_qe_monthlyMeetingsRooms(ri!choice),
+  columns: {
+    a!gridColumn(
+      label: "Name",
+      value: concat(proper(user(fv!row['recordType!{b011d6e4-229c-4c8b-8659-6ba8706e0354}MMS Attendee.fields.{47dfecf1-c935-4076-88c6-6b863e0e0ca6}attendeeName'],"firstName"))&" "&proper(user(fv!row['recordType!{b011d6e4-229c-4c8b-8659-6ba8706e0354}MMS Attendee.fields.{47dfecf1-c935-4076-88c6-6b863e0e0ca6}attendeeName'],"lastName"))),
+      align: "START"
+    ),
+    a!gridColumn(
+      label: "Checked In",
+      value: if(
+        a!isNotNullOrEmpty(
+          fv!row['recordType!{b011d6e4-229c-4c8b-8659-6ba8706e0354}MMS Attendee.fields.{a714c3a1-dc8c-43ef-b824-7c5ee506d402}checkedIn']
+        ),
+        a!tagField(
+          labelPosition: "COLLAPSED",
+          tags: a!tagItem(text: "Attended", backgroundColor:  "POSITIVE"),
+          align: "CENTER"
+        ),
+        a!tagField(
+          tags: a!tagItem(
+            text: "Not Attended",
+            backgroundColor: "NEGATIVE"
+          ),
+          align: "END"
+        )
+      ),
+      align: "START"
+    )
+  },
+  refreshAfter: "RECORD_ACTION",
+)
+)

@@ -1,0 +1,310 @@
+a!localVariables(
+  local!attendeeGrid: rule!MMS_uiCheckInGrid(ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{56668138-6a6e-4a79-836a-3ab561a0eab2}meetingId']),
+  local!refreshAttendee:    a!refreshVariable(
+    value: local!attendeeGrid,
+    refreshOnVarChange:ri!meeting
+  ),
+
+  {
+
+    a!cardLayout(
+      contents: {
+        a!sectionLayout(
+          label: "MEETING DETAILS",
+          labelSize: "MEDIUM",
+          labelHeadingTag: "H2",
+          labelColor: "STANDARD",
+          contents: {
+            a!cardLayout(
+              contents: {
+                a!columnsLayout(
+                  columns: {
+                    a!columnLayout(
+                      contents: {
+                        a!textField(
+                          label: "Subject",
+                          labelPosition: "JUSTIFIED",
+                          value: a!defaultValue(
+                            ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{116f6f8a-11fa-4d59-9268-3d6b9245ead7}subject'],
+                            "–"
+                          ),
+                          readOnly: true
+                        ),
+                        a!richTextDisplayField(
+                          label: "Start Date Time",
+                          labelPosition: "JUSTIFIED",
+                          value: if(
+                            isnull(
+                              ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime']
+                            ),
+                            "–",
+                            {
+                              a!richTextIcon(
+                                icon: "calendar-o",
+                                color: "SECONDARY"
+                              ),
+                              " ",
+                              a!richTextItem(
+                                text: text(
+                                  ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime'],
+                                  "mmmm d, yyyy h:mm AM/PM"
+                                )
+                              )
+                            }
+                          )
+                        ),
+                        a!textField(
+                          label: "Location",
+                          labelPosition: "JUSTIFIED",
+                          value: a!defaultValue(
+                            ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location'],
+                            "–"
+                          ),
+                          readOnly: true
+                        ),
+                        a!textField(
+                          label: "Reminder",
+                          labelPosition: "JUSTIFIED",
+                          value: a!defaultValue(
+                            ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{dcac502d-a8f1-4cc4-8805-44858efb3629}reminder'],
+                            "–"
+                          ),
+                          readOnly: true
+                        ),
+                        a!textField(
+                          label: "Post Meeting Summary",
+                          labelPosition: "JUSTIFIED",
+                          value: a!defaultValue(
+                            ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0ca73744-b9ee-42da-a94b-854c962d7a92}postMeetingSummary'],
+                            "–"
+                          ),
+                          readOnly: true
+                        ),
+                        a!richTextDisplayField(
+                          label: "Created On",
+                          labelPosition: "JUSTIFIED",
+                          value: if(
+                            isnull(
+                              ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{50201aa4-7939-42bf-8529-7b2b818f6178}createdOn']
+                            ),
+                            "–",
+                            {
+                              a!richTextIcon(
+                                icon: "calendar-o",
+                                color: "SECONDARY"
+                              ),
+                              " ",
+                              a!richTextItem(
+                                text: text(
+                                  ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{50201aa4-7939-42bf-8529-7b2b818f6178}createdOn'],
+                                  "mmmm d, yyyy h:mm AM/PM"
+                                )
+                              )
+                            }
+                          )
+                        ),
+                        a!richTextDisplayField(
+                          label: "Modified On",
+                          labelPosition: "JUSTIFIED",
+                          value: if(
+                            isnull(
+                              ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{da5f8581-6b1a-4229-80a5-1b9ba7e9d21e}modifiedOn']
+                            ),
+                            "–",
+                            {
+                              a!richTextIcon(
+                                icon: "calendar-o",
+                                color: "SECONDARY"
+                              ),
+                              " ",
+                              a!richTextItem(
+                                text: text(
+                                  ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{da5f8581-6b1a-4229-80a5-1b9ba7e9d21e}modifiedOn'],
+                                  "mmmm d, yyyy h:mm AM/PM"
+                                )
+                              )
+                            }
+                          )
+                        )
+                      }
+                    ),
+                    a!columnLayout(
+                      contents: {
+                        a!textField(
+                          label: "Description",
+                          labelPosition: "JUSTIFIED",
+                          value: a!defaultValue(
+                            ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{db03f0ab-b2f6-49b8-bfa3-c8ffb5a15861}description'],
+                            "–"
+                          ),
+                          readOnly: true
+                        ),
+                        a!textField(
+                          label: "Duration",
+                          labelPosition: "JUSTIFIED",
+                          value: a!defaultValue(
+                            ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{5ca83c47-508c-42e5-850d-64ac6851a228}duration'] & " Minutes",
+                            "–"
+                          ),
+                          readOnly: true
+                        ),
+                        a!richTextDisplayField(
+                          label: "Send Reminder",
+                          labelPosition: "JUSTIFIED",
+                          value: if(
+                            isnull(
+                              ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{4eea88ab-f0ad-4710-9fd0-07da8e63e9e4}sendReminder']
+                            ),
+                            "–",
+                            {
+                              a!richTextIcon(
+                                icon: if(
+                                  ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{4eea88ab-f0ad-4710-9fd0-07da8e63e9e4}sendReminder'],
+                                  "check-circle",
+                                  "times-circle"
+                                ),
+                                color: if(
+                                  ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{4eea88ab-f0ad-4710-9fd0-07da8e63e9e4}sendReminder'],
+                                  "POSITIVE",
+                                  "NEGATIVE"
+                                )
+                              ),
+                              if(
+                                ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{4eea88ab-f0ad-4710-9fd0-07da8e63e9e4}sendReminder'],
+                                " Yes",
+                                " No"
+                              )
+                            }
+                          )
+                        ),
+                        a!richTextDisplayField(
+                          label: "Reminder Time",
+                          labelPosition: "JUSTIFIED",
+                          value: if(
+                            isnull(
+                              ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{03f086d5-6878-4372-8797-0652f69faddb}reminderTime']
+                            ),
+                            "–",
+                            {
+                              a!richTextIcon(
+                                icon: "calendar-o",
+                                color: "SECONDARY"
+                              ),
+                              " ",
+                              a!richTextItem(
+                                text: text(
+                                  ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{03f086d5-6878-4372-8797-0652f69faddb}reminderTime'],
+                                  "mmmm d, yyyy h:mm AM/PM"
+                                )
+                              )
+                            }
+                          )
+                        ),
+                        a!textField(
+                          label: "Created By",
+                          labelPosition: "JUSTIFIED",
+                          value: a!defaultValue(
+                            ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{75d324d7-2950-4734-9095-39bff0602d59}createdBy'],
+                            "–"
+                          ),
+                          readOnly: true
+                        ),
+                        a!textField(
+                          label: "Modified By",
+                          labelPosition: "JUSTIFIED",
+                          value: a!defaultValue(
+                            ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{f9080a5b-c31e-4a53-a2dd-5c15e1baa0f7}modifiedBy'],
+                            "–"
+                          ),
+                          readOnly: true
+                        ),
+                        a!richTextDisplayField(
+                          label: "Isactive",
+                          labelPosition: "JUSTIFIED",
+                          value: if(
+                            isnull(
+                              ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{f101634d-f64a-4ef9-968b-0704dbc4ff69}isactive']
+                            ),
+                            "–",
+                            {
+                              a!richTextIcon(
+                                icon: if(
+                                  ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{f101634d-f64a-4ef9-968b-0704dbc4ff69}isactive'],
+                                  "check-circle",
+                                  "times-circle"
+                                ),
+                                color: if(
+                                  ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{f101634d-f64a-4ef9-968b-0704dbc4ff69}isactive'],
+                                  "POSITIVE",
+                                  "NEGATIVE"
+                                )
+                              ),
+                              if(
+                                ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{f101634d-f64a-4ef9-968b-0704dbc4ff69}isactive'],
+                                " Yes",
+                                " No"
+                              )
+                            }
+                          )
+                        )
+                      }
+                    ),
+                    a!columnLayout(
+                      contents: {
+                        a!imageField(
+                          label: "Image",
+                          labelPosition: "COLLAPSED",
+                          images: {a!documentImage(6818)},
+                          size: "LARGE",
+                          isThumbnail: false,
+                          style: "STANDARD"
+                        )
+                      }
+                    )
+                  },
+                  alignVertical: "MIDDLE"
+                )
+              },
+              height: "AUTO",
+              style: "#DEE8EF",
+              marginBelow: "STANDARD",
+              showBorder: false
+            ),
+            a!sectionLayout(
+              label: "",
+              contents: {
+                a!columnsLayout(
+                  columns: {
+                    a!columnLayout(
+                      contents: {rule!MMS_uiMeetingsNotes(ri!meeting)}
+                    ),
+                    a!columnLayout(
+                      contents: {
+                        a!sectionLayout(
+                          label: "Attendance",
+                          contents: {
+                           local!refreshAttendee
+                          }
+                        )
+                      },
+                      width: if(a!isPageWidth({"PHONE", "TABLET_PORTRAIT", "TABLET_LANDSCAPE"}),"NARROW_PLUS","MEDIUM_PLUS")
+                    )
+                  }
+                )
+              }
+            )
+          },
+          divider: "ABOVE",
+          dividerWeight: "MEDIUM",
+          dividerColor: "#999999",
+          marginAbove: "STANDARD",
+          marginBelow: "MORE"
+        )
+      },
+      height: "AUTO",
+      style: "#ffffff",
+      marginBelow: "STANDARD",
+      showBorder: false
+    )
+  }
+)

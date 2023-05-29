@@ -1,0 +1,330 @@
+a!localVariables(
+  local!active,
+  local!meetroom1:rule!MMS_qe_genericQuery(
+    record: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting',
+    fields: {'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location'},
+    filters: {
+      a!map(field:'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location',operator:"=",value:1)
+    }
+  ),
+  local!meetroom2:rule!MMS_qe_genericQuery(
+    record: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting',
+    fields: {'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location'},
+    filters: {
+      a!map(field:'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location',operator:"=",value:2)
+    }
+  ),
+  local!meetroom3:rule!MMS_qe_genericQuery(
+    record: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting',
+    fields: {'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location'},
+    filters: {
+      a!map(field:'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location',operator:"=",value:3)
+    }
+  ),
+  local!meetroom4:rule!MMS_qe_genericQuery(
+    record: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting',
+    fields: {'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location'},
+    filters: {
+      a!map(field:'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location',operator:"=",value:4)
+    }
+  ),
+  local!datamap: a!refreshVariable(
+  value:{
+    a!map(
+      name: "MEETING ROOM NO.1",
+      val: count(local!meetroom1) 
+    ),
+    a!map(
+      name: "MEETING ROOM NO.2",
+      val: count(local!meetroom2)
+    ),
+    a!map(name: "MEETING ROOM NO.3", val: count(local!meetroom3)),
+    a!map(name: "MEETING ROOM NO.4", val: count(local!meetroom4)),
+   }
+    ),
+      a!headerContentLayout(
+        header: {},
+  contents: {a!cardLayout(
+    contents: {
+      a!sectionLayout(
+        label: "",
+        labelSize: "MEDIUM_PLUS",
+        labelHeadingTag: "H6",
+        labelColor: "STANDARD",
+        contents: {
+          a!sideBySideLayout(
+            items: {
+              a!sideBySideItem(
+                item: a!richTextDisplayField(
+                  labelPosition: "COLLAPSED",
+                  value: {
+                    a!richTextItem(
+                      text: {
+                        "MEETINGS"
+                      },
+                      size: "LARGE",
+                      style: {
+                        "STRONG"
+                      }
+                    )
+                  }
+                )
+              ),
+              a!sideBySideItem(
+                item: a!richTextDisplayField(
+                  labelPosition: "COLLAPSED",
+                  value: {
+                    a!richTextItem(
+                      text: {
+                        a!richTextIcon(
+                          icon: "refresh-alt",
+                          link: a!dynamicLink(
+                            value: null,
+                            saveInto: local!active
+                            
+                          ),
+                          linkStyle: "STANDALONE",
+                          color: "#1D659C"
+                        )
+                       
+                      },
+                      color: "ACCENT",
+                      size: "MEDIUM_PLUS",
+                      style: {
+                        "STRONG"
+                      }
+                    )
+                  }
+                ),
+                width: "MINIMIZE"
+              ),
+              a!sideBySideItem(
+                item: a!richTextDisplayField(
+                  labelPosition: "COLLAPSED",
+                  value: {}
+                ),
+                width: "MINIMIZE"
+              )
+            },
+            alignVertical: "MIDDLE"
+          ),
+          a!columnsLayout(
+            columns: {a!forEach(
+              items: local!datamap,
+              expression: a!columnLayout(
+                contents: {
+                  a!cardLayout(
+                    contents: {
+                      a!richTextDisplayField(
+                        labelPosition: "COLLAPSED",
+                        value: {
+                          a!richTextItem(
+                            text: index(fv!item, "name"),
+                            size: "MEDIUM",
+                            style: "STRONG"
+                          )
+                        },
+                        preventWrapping: false,
+                        align: "CENTER"
+                      ),
+                      a!richTextDisplayField(
+                        labelPosition: "COLLAPSED",
+                        value: {
+                          a!richTextItem(
+                            text: { index(fv!item, "val") },
+                           
+                            linkStyle: "STANDALONE",
+                            size: "MEDIUM_PLUS",
+                            style: { "STRONG" }
+                          )
+                        },
+                        align: "CENTER"
+                      )
+                    },
+                    link: a!dynamicLink(
+                      value: fv!index,
+                      saveInto:local!active
+                    ),
+                    height: "AUTO",
+                    style:{if(and(a!isNotNullOrEmpty(local!active),fv!index=local!active), "#487594","")},
+                   
+                    padding: "NONE",
+                    marginBelow: "STANDARD",
+                    showBorder: false,
+                    showShadow: true,
+                    decorativeBarPosition: "TOP",
+                    decorativeBarColor: "#1d659c"
+                  )
+                }
+              )
+            )
+            
+            }
+          )
+            
+        },
+        divider: "NONE",
+        dividerWeight: "MEDIUM",
+        dividerColor: "#999999"
+      ),
+      a!cardLayout(
+        contents: {
+          a!gridField(
+            label: "",
+            labelPosition: "ABOVE",
+            data: a!recordData(
+              recordType: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting',
+              filters: a!queryLogicalExpression(
+                operator: "AND",
+                filters: a!queryFilter(
+                  field: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location',
+                  operator: "=",
+                  value: a!defaultValue(local!active,true),
+                  applyWhen: a!isNotNullOrEmpty(local!active)
+                )
+              ),
+              relatedRecordData: {
+                a!relatedRecordData()
+              }
+            ),
+            columns: {
+              a!gridColumn(
+                label: "Meeting Id",
+                sortField: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{56668138-6a6e-4a79-836a-3ab561a0eab2}meetingId',
+                value: fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{56668138-6a6e-4a79-836a-3ab561a0eab2}meetingId'],
+                align: "END"
+              ),
+              a!gridColumn(
+                label: "Subject",
+                sortField: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{116f6f8a-11fa-4d59-9268-3d6b9245ead7}subject',
+                value: a!linkField(
+                  links: {
+                    a!recordLink(
+                      label: fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{116f6f8a-11fa-4d59-9268-3d6b9245ead7}subject'],
+                      recordType: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting',
+                      identifier: fv!identifier
+                    )
+                  }
+                )
+              ),
+              a!gridColumn(
+                label: "Description",
+                sortField: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{db03f0ab-b2f6-49b8-bfa3-c8ffb5a15861}description',
+                value: fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{db03f0ab-b2f6-49b8-bfa3-c8ffb5a15861}description']
+              ),
+              a!gridColumn(
+                label: "Start Date Time",
+                sortField: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime',
+                value: if(
+                  isnull(
+                    fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime']
+                  ),
+                  fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime']-time(5,30),
+                  rule!MMS_dateTimeDisplay(datetext(
+                    fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime']-time(5,30),
+                    "default"
+                  ))
+                ),
+                align: "END"
+              ),
+              a!gridColumn(
+                label: "Duration (Min)",
+                sortField: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{5ca83c47-508c-42e5-850d-64ac6851a228}duration',
+                value: fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{5ca83c47-508c-42e5-850d-64ac6851a228}duration'],
+                align: "END"
+              ),
+              a!gridColumn(
+                label: "Location",
+                sortField: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location',
+                value: "Meeting Room " & fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location'],
+                align: "END"
+              ),
+              a!gridColumn(
+                label: "Status",
+                value: if(
+                  fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{f101634d-f64a-4ef9-968b-0704dbc4ff69}isactive'],
+                  if(
+                    and(
+                      fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime'] < now(),
+                      a!addDateTime(
+                startDateTime: fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime'],
+                minutes: fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{5ca83c47-508c-42e5-850d-64ac6851a228}duration']
+              )>now()
+                    ),
+                    a!tagField(
+                      tags: a!tagItem(
+                        text: "Ongoing",
+                        backgroundColor: "#143F6B",
+                        textColor: "#ffffff"
+                      )
+                    ),
+                    if(
+                      fv!row['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{b6a63a63-c5f5-481c-9a43-238f51a4fd23}startDateTime'] > now(),
+                      a!tagField(
+                        tags: a!tagItem(
+                          text: "Upcoming",
+                          backgroundColor: "#F99417",
+                          textColor: "#ffffff"
+                        )
+                      ),
+                      a!tagField(
+                        tags: a!tagItem(
+                          text: "Completed",
+                          backgroundColor: "#27CE38",
+                          textColor: "#ffffff"
+                        )
+                      )
+                    )
+                  ),
+                  a!tagField(
+                    tags: a!tagItem(
+                      text: "Cancelled",
+                      backgroundColor: "#FC5F62",
+                      textColor: "#ffffff"
+                    )
+                  )
+                )
+              ),
+              a!gridColumn(
+                label: "Update",
+                value:a!recordActionField(
+                  actions: {
+                    a!recordActionItem(
+                      action: 'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.actions.{d91738e2-1a6f-4476-b920-53b280cc179b}updateMeeting',
+                      identifier: fv!identifier
+                    )
+                  }
+                  )
+                
+                
+              )
+            },
+            validations: {},
+            borderStyle: "LIGHT",
+            refreshAfter: "RECORD_ACTION",
+            userFilters: {
+              'recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.filters.{01b8dd56-d47b-4f38-9832-3371510e5a6f}Quaterly'
+            },
+            
+            showSearchBox: true,
+            showRefreshButton: false,
+            showExportButton: true,
+            recordActions: {}
+          )
+        },
+        height: "AUTO",
+        style: "NONE",
+        padding: "EVEN_LESS",
+        marginBelow: "STANDARD",
+        showBorder: false,
+        showShadow: false
+      )
+    },
+    height: "AUTO",
+    style: "#DEE8EF",
+    marginBelow: "STANDARD"
+  )
+  },
+        contentsPadding: "NONE"
+  )
+)

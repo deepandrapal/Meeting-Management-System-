@@ -1,0 +1,383 @@
+a!localVariables(
+  local!color: rule!MMS_colorSelector(),
+  local!readonly: true,
+  a!headerContentLayout(
+    header: {},
+    contents: {
+      a!sectionLayout(
+        label: "",
+        contents: {
+          a!columnsLayout(
+            columns: {
+              a!columnLayout(contents: {}, width: "AUTO"),
+              a!columnLayout(
+                contents: {
+                  a!cardLayout(
+                    contents: {
+                      a!imageField(
+                        label: "",
+                        labelPosition: "ABOVE",
+                        images: {
+                          a!documentImage(document: 6867)
+                        },
+                        size: "MEDIUM",
+                        isThumbnail: false,
+                        style: "STANDARD",
+                        align: "CENTER",
+                        marginAbove: "NONE",
+                        marginBelow: "NONE"
+                      ),
+                      a!richTextDisplayField(
+                        labelPosition: "COLLAPSED",
+                        value: {
+                          a!richTextItem(
+                            text: {
+                              "MEETING CHECK-IN"
+                            },
+                            color: "#666666",
+                            size: "LARGE_PLUS"
+                          )
+                        },
+                        align: "CENTER",
+                        marginAbove: "NONE",
+                        marginBelow: "NONE"
+                      ),
+                      a!cardLayout(
+                        contents: {
+                          a!cardLayout(
+                            contents: {
+                              a!sideBySideLayout(
+                                items: {
+                                  a!sideBySideItem(
+                                    item: a!richTextDisplayField(
+                                      labelPosition: "COLLAPSED",
+                                      value: {
+                                        a!richTextItem(
+                                          text: {
+                                            "  ",
+                                            a!richTextIcon(
+                                              icon: "book"
+                                            ),
+                                            "  SUBJECT"
+                                          },
+                                          size: "MEDIUM",
+                                          style: {
+                                            "STRONG"
+                                          }
+                                        )
+                                      },
+                                      align: "LEFT"
+                                    ),
+                                    width: "AUTO"
+                                  ),
+                                  a!sideBySideItem(
+                                    item: a!textField(
+                                      labelPosition: "COLLAPSED",
+                                      value: {ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{116f6f8a-11fa-4d59-9268-3d6b9245ead7}subject']},
+                                      saveInto: ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{116f6f8a-11fa-4d59-9268-3d6b9245ead7}subject'],
+                                      readOnly: true()
+                                    )
+                                    /*a!richTextDisplayField(*/
+                                      /*labelPosition: "COLLAPSED",*/
+                                      /*value: {ri!MMS_Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{5ca83c47-508c-42e5-850d-64ac6851a228}duration']}*/
+                                    /*)*/
+                                  )
+                                },
+                                alignVertical: "MIDDLE",
+                                spacing: "STANDARD",
+                                marginAbove: "STANDARD",
+                                marginBelow: "STANDARD"
+                              )
+                            },
+                            height: "AUTO",
+                            style: "NONE",
+                            shape: "ROUNDED",
+                            padding: "NONE",
+                            marginBelow: "STANDARD",
+                            showBorder: false,
+                            showShadow: true,
+                            decorativeBarPosition: "START",
+                            decorativeBarColor: "#1d659c"
+                          ),
+                          a!cardLayout(
+                            contents: {
+                              a!sideBySideLayout(
+                                items: {
+                                  a!sideBySideItem(
+                                    item: a!richTextDisplayField(
+                                      labelPosition: "COLLAPSED",
+                                      value: {
+                                        a!richTextItem(
+                                          text: {
+                                            "  ",
+                                            a!richTextIcon(
+                                              icon: "file-signature"
+                                            ),
+                                            "  DESCRIPTION"
+                                          },
+                                          size: "MEDIUM",
+                                          style: {
+                                            "STRONG"
+                                          }
+                                        )
+                                      }
+                                    ),
+                                    width: "AUTO"
+                                  ),
+                                  a!sideBySideItem(
+                                    item: a!textField(
+                                      labelPosition: "COLLAPSED",
+                                      value: {ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{db03f0ab-b2f6-49b8-bfa3-c8ffb5a15861}description']},
+                                      saveInto: ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{db03f0ab-b2f6-49b8-bfa3-c8ffb5a15861}description'],
+                                      readOnly: true()
+                                    )
+                                    /*a!richTextDisplayField(*/
+                                      /*labelPosition: "COLLAPSED",*/
+                                      /*value: {ri!MMS_Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{5ca83c47-508c-42e5-850d-64ac6851a228}duration']}*/
+                                    /*)*/,
+                                    width: "MINIMIZE"
+                                  )
+                                },
+                                alignVertical: "MIDDLE",
+                                spacing: "STANDARD",
+                                marginAbove: "STANDARD",
+                                marginBelow: "STANDARD"
+                              )
+                            },
+                            height: "AUTO",
+                            style: "NONE",
+                            shape: "ROUNDED",
+                            padding: "NONE",
+                            marginBelow: "STANDARD",
+                            showBorder: false,
+                            showShadow: true,
+                            decorativeBarPosition: "START",
+                            decorativeBarColor: "#1d659c"
+                          ),
+                          a!cardLayout(
+                            contents: {
+                              a!sideBySideLayout(
+                                items: {
+                                  a!sideBySideItem(
+                                    item: a!richTextDisplayField(
+                                      labelPosition: "COLLAPSED",
+                                      value: {
+                                        a!richTextItem(
+                                          text: {
+                                            "  ",
+                                            a!richTextIcon(
+                                              icon: "stopwatch"
+                                            ),
+                                            "  DURATION "
+                                          },
+                                          size: "MEDIUM",
+                                          style: {
+                                            "STRONG"
+                                          }
+                                        )
+                                      }
+                                    ),
+                                    width: "AUTO"
+                                  ),
+                                  a!sideBySideItem(
+                                    item: a!textField(
+                                      labelPosition: "COLLAPSED",
+                                      value: {ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{5ca83c47-508c-42e5-850d-64ac6851a228}duration'] & " min"},
+                                      saveInto: ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{5ca83c47-508c-42e5-850d-64ac6851a228}duration'],
+                                      readOnly: true()
+                                    )
+                                    /*a!richTextDisplayField(*/
+                                      /*labelPosition: "COLLAPSED",*/
+                                      /*value: {ri!MMS_Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{5ca83c47-508c-42e5-850d-64ac6851a228}duration']}*/
+                                    /*)*/,
+                                    width: "AUTO"
+                                  )
+                                },
+                                alignVertical: "MIDDLE",
+                                spacing: "STANDARD",
+                                marginAbove: "STANDARD",
+                                marginBelow: "STANDARD"
+                              )
+                            },
+                            height: "AUTO",
+                            style: "NONE",
+                            shape: "ROUNDED",
+                            padding: "NONE",
+                            marginBelow: "STANDARD",
+                            showBorder: false,
+                            showShadow: true,
+                            decorativeBarPosition: "START",
+                            decorativeBarColor: "#1d659c"
+                          ),
+                          a!cardLayout(
+                            contents: {
+                              a!sideBySideLayout(
+                                items: {
+                                  a!sideBySideItem(
+                                    item: a!richTextDisplayField(
+                                      labelPosition: "COLLAPSED",
+                                      value: {
+                                        a!richTextItem(
+                                          text: {
+                                            "  ",
+                                            a!richTextIcon(
+                                              icon: "map-marked"
+                                            ),
+                                            "  LOCATION "
+                                          },
+                                          size: "MEDIUM",
+                                          style: {
+                                            "STRONG"
+                                          }
+                                        )
+                                      }
+                                    )
+                                  ),
+                                  a!sideBySideItem(
+                                    item: a!textField(
+                                      labelPosition: "COLLAPSED",
+                                      value: {"Meeting Room "&ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location']},
+                                      saveInto: ri!meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location'],
+                                      readOnly: true()
+                                    )
+                                    /*a!richTextDisplayField(*/
+                                      /*labelPosition: "COLLAPSED",*/
+                                      /*value: {ri!MMS_Meeting['recordType!{23e72960-43b9-4292-8a2e-e62832e281e5}MMS Meeting.fields.{0c31eba6-32cd-4baf-ac5d-227797394661}location']}*/
+                                    /*)*/
+                                  )
+                                },
+                                alignVertical: "MIDDLE",
+                                spacing: "STANDARD",
+                                marginAbove: "STANDARD",
+                                marginBelow: "STANDARD"
+                              )
+                            },
+                            height: "AUTO",
+                            style: "NONE",
+                            shape: "ROUNDED",
+                            padding: "NONE",
+                            marginBelow: "STANDARD",
+                            showBorder: false,
+                            showShadow: true,
+                            decorativeBarPosition: "START",
+                            decorativeBarColor: "#1d659c"
+                          )
+                        },
+                        height: "AUTO",
+                        style: "#DEE8EF",
+                        shape: "ROUNDED",
+                        marginBelow: "STANDARD",
+                        showBorder: false
+                      ),
+                      a!columnsLayout(
+                        columns: {
+                          a!columnLayout(
+                            contents: {
+                              a!cardLayout(
+                                contents: {
+                                  a!columnsLayout(
+                                    columns: {
+                                      a!columnLayout(
+                                        contents: {
+                                          a!cardLayout(
+                                            contents: {
+                                              a!richTextDisplayField(
+                                                labelPosition: "COLLAPSED",
+                                                value: {
+                                                  a!richTextItem(
+                                                    text: { cons!MMS_BUTTON_LABELS[5] },
+                                                    color: "#1d659c",
+                                                    size: "MEDIUM",
+                                                    style: { "STRONG" }
+                                                  )
+                                                },
+                                                align: "CENTER"
+                                              )
+                                            },
+                                            link: a!submitLink(value: true, saveInto: ri!cancel ),
+                                            height: "AUTO",
+                                            style: "NONE",
+                                            shape: "ROUNDED",
+                                            marginBelow: "STANDARD",
+                                            showBorder: true,
+                                            showShadow: true
+                                          )
+                                        },
+                                        width: "NARROW"
+                                      ),
+                                      a!columnLayout(contents: {}, width: "AUTO"),
+                                      a!columnLayout(
+                                        contents: {
+                                          a!cardLayout(
+                                            contents: {
+                                              a!richTextDisplayField(
+                                                labelPosition: "COLLAPSED",
+                                                value: {
+                                                  a!richTextItem(
+                                                    text: { cons!MMS_BUTTON_LABELS[9]},
+                                                    color: "#ffffff",
+                                                    size: "MEDIUM",
+                                                    style: { "STRONG" }
+                                                  )
+                                                },
+                                                align: "CENTER"
+                                              )
+                                            },
+                                            link: a!submitLink(
+                                              value: false,
+                                              saveInto: {
+                                                ri!cancel,
+                                                a!save(local!readonly, true)
+                                          
+                                              }
+                                            ),
+                                            height: "AUTO",
+                                            style: "#1d659c",
+                                            shape: "ROUNDED",
+                                            marginBelow: "STANDARD",
+                                            showShadow: true
+                                          )
+                                        },
+                                        width: "NARROW"
+                                      )
+                                    },
+                                    alignVertical: "MIDDLE"
+                                  )
+                                },
+                                height: "AUTO",
+                                style: "#DEE8EF",
+                                shape: "ROUNDED",
+                                padding: "NONE",
+                                marginBelow: "STANDARD",
+                                showBorder: false
+                              )
+                            }
+                          )
+                        },
+                        stackWhen: {
+                          "DESKTOP_WIDE",
+                          "DESKTOP",
+                          "DESKTOP_NARROW",
+                          "TABLET_LANDSCAPE",
+                          "TABLET_PORTRAIT",
+                          "PHONE"
+                        }
+                      )
+                    },
+                    height: "AUTO",
+                    style: "#DEE8EF",
+                    marginBelow: "STANDARD",
+                    showShadow: true()
+                  )
+                },
+                width: "WIDE_PLUS"
+              ),
+              a!columnLayout(contents: {}, width: "AUTO")
+            }
+          )
+        }
+      )
+    },
+    backgroundColor: local!color.feedbackBgcolor
+  )
+)
